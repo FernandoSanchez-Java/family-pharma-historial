@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Pharma - V5 Catálogo y Gestión</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header>
+        <div class="navbar">
+            <a href="index.html" class="logo">
+                <i class="fa-solid fa-plus"></i> Family Pharma <span style="font-size: 0.7rem; background: var(--primary); color: white; padding: 0.1rem 0.4rem; border-radius: 4px;">V5</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Catálogo</a></li>
+                <!-- El enlace de Nuevo Producto solo lo verá el Administrador -->
+                <li><a href="#" id="nav-open-add-modal" style="color: var(--primary); font-weight: 600; display: none;"><i class="fa-solid fa-plus-circle"></i> Nuevo Producto</a></li>
+                <li><a href="#nosotros">Nosotros</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+            <div class="nav-actions">
+                <div id="user-session-container"></div>
+                <a href="favoritos.html" class="icon-btn" title="Favoritos"><i class="fa-regular fa-heart"></i><span class="badge" id="fav-badge">0</span></a>
+                <a href="carrito.html" class="icon-btn" title="Carrito"><i class="fa-solid fa-bag-shopping" style="color:var(--primary)"></i><span class="badge" id="cart-badge">0</span></a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Buscador Dinámico en Tiempo Real (Caja Negra con Normalización de Acentos y Categorías) -->
+        <div style="display: flex; gap: 0.5rem; margin-bottom: 2rem; max-width: 600px;">
+            <input type="text" id="search-input" class="form-control" placeholder="Buscar por medicamento, categoría (ej. Analgésico, Antibiótico)...">
+            <button id="search-btn" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <h2 class="section-title" style="margin-bottom: 0;">Catálogo de Medicamentos (50 Artículos)</h2>
+            <!-- El botón de alta manual también se oculta si es cliente normal -->
+            <button class="btn btn-outline" id="btn-open-add-product" style="font-size: 0.85rem; display: none;"><i class="fa-solid fa-plus"></i> Alta Manual de Producto</button>
+        </div>
+
+        <!-- Grilla de Productos -->
+        <div id="product-grid" class="product-grid"></div>
+
+        <!-- Sección Nosotros -->
+        <section id="nosotros" style="margin-top: 4rem; padding: 2rem; background: white; border-radius: var(--border-radius); border: 1px solid var(--border-color);">
+            <h3 style="margin-bottom: 1rem; color: var(--secondary-color);">Sobre Family Pharma V5</h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem;">Plataforma integral e-commerce orientada a la salud familiar, con trazabilidad contable, control de roles (RBAC), seguridad estricta en pasarela de pago simulada y facturación CFDI 4.0 automatizada.</p>
+        </section>
+
+        <!-- Sección Contacto y Redes Sociales -->
+        <section id="contacto" style="margin-top: 2rem; padding: 2rem; background: white; border-radius: var(--border-radius); border: 1px solid var(--border-color); margin-bottom: 3rem;">
+            <h3 style="margin-bottom: 1rem; color: var(--secondary-color);">Contacto y Redes Sociales</h3>
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 0.5rem;"><i class="fa-solid fa-phone" style="color: var(--primary);"></i> Teléfono: 800 123 4567</p>
+            <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 0.8rem;"><i class="fa-solid fa-envelope" style="color: var(--primary);"></i> Soporte: contacto@familypharma.com</p>
+            
+            <div style="display: flex; gap: 1rem; margin-top: 1rem; align-items: center;">
+                <a href="https://www.facebook.com/share/19jpFSkedc/" target="_blank" style="display: inline-flex; align-items: center; gap: 0.5rem; color: #1877f2; text-decoration: none; font-weight: 600; font-size: 0.9rem;">
+                    <i class="fa-brands fa-facebook fa-lg"></i> Facebook Oficial
+                </a>
+                <a href="https://vm.tiktok.com/ZS9UVkb4r8SUT-NvYXt/" target="_blank" style="display: inline-flex; align-items: center; gap: 0.5rem; color: #000000; text-decoration: none; font-weight: 600; font-size: 0.9rem;">
+                    <i class="fa-brands fa-tiktok fa-lg"></i> TikTok de la Farmacia
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal de Detalle de Producto -->
+    <div id="modal-product-detail" class="modal">
+        <div class="modal-content" style="max-width: 400px; text-align: center; position: relative;">
+            <span id="close-detail-modal" style="cursor:pointer; position:absolute; top:1rem; right:1rem; font-size: 1.2rem; color: #64748b;"><i class="fa-solid fa-xmark"></i></span>
+            <img id="detail-img" src="" alt="" style="width: 100%; height: 180px; object-fit: contain; margin-bottom: 1rem; background: #fff; border-radius: 6px;">
+            <div id="detail-category" style="font-size: 0.75rem; color: #64748b; font-weight: bold; text-transform: uppercase; background: #f1f5f9; padding: 0.2rem 0.5rem; border-radius: 4px; display: inline-block; margin-bottom: 0.5rem;"></div>
+            <h3 id="detail-title" style="font-size: 1.1rem; margin: 0.3rem 0; color: #0f172a;"></h3>
+            <p id="detail-price" style="font-size: 1.3rem; font-weight: bold; color: #0284c7; margin-bottom: 1rem;"></p>
+            <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 1.5rem; line-height: 1.4;">Medicamento certificado bajo normas sanitarias. Disponible para entrega inmediata o envío a domicilio.</p>
+            <button id="detail-add-btn" class="btn btn-primary" style="width: 100%; padding: 0.7rem;">Agregar al Carrito</button>
+        </div>
+    </div>
+
+    <!-- Modal de Alta Manual de Producto (Solo Admin) -->
+    <div id="modal-add-product" class="modal">
+        <div class="modal-content" style="max-width: 400px; position: relative;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 1rem;">
+                <h3 style="color: var(--secondary-color); font-size: 1.1rem;"><i class="fa-solid fa-plus-circle"></i> Alta de Nuevo Medicamento</h3>
+                <span id="close-add-product-modal" style="cursor:pointer; font-size: 1.2rem;"><i class="fa-solid fa-xmark"></i></span>
+            </div>
+            <form id="form-add-product">
+                <div class="form-group" style="margin-bottom: 0.8rem;">
+                    <label style="font-size: 0.85rem; font-weight: 600;">Nombre del Medicamento</label>
+                    <input type="text" id="new-prod-name" class="form-control" placeholder="Ej. Omeprazol 20mg" required>
+                </div>
+                <div class="form-group" style="margin-bottom: 0.8rem;">
+                    <label style="font-size: 0.85rem; font-weight: 600;">Categoría</label>
+                    <input type="text" id="new-prod-cat" class="form-control" placeholder="Ej. GASTROINTESTINAL" required>
+                </div>
+                <div class="form-group" style="margin-bottom: 0.8rem;">
+                    <label style="font-size: 0.85rem; font-weight: 600;">Precio (MXN)</label>
+                    <input type="number" step="0.5" id="new-prod-price" class="form-control" placeholder="45.00" required>
+                </div>
+                <div class="form-group" style="margin-bottom: 1.2rem;">
+                    <label style="font-size: 0.85rem; font-weight: 600;">URL de Imagen (Opcional)</label>
+                    <input type="url" id="new-prod-img" class="form-control" placeholder="https://...">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.75rem;">Guardar y Publicar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Autenticación / Login, Registro y Recuperación -->
+    <div id="modal-auth" class="modal">
+        <div class="modal-content" style="max-width: 380px; position: relative;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 1rem;">
+                <h3 id="auth-modal-title">Iniciar Sesión</h3>
+                <span id="close-auth-modal" style="cursor:pointer; font-size: 1.2rem;"><i class="fa-solid fa-xmark"></i></span>
+            </div>
+            
+            <!-- Formulario de Login -->
+            <form id="form-login">
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label style="font-size: 0.85rem; font-weight: 600;">Correo Electrónico</label>
+                    <input type="email" id="login-email" class="form-control" placeholder="cliente@familypharma.com" required>
+                </div>
+                <div class="form-group" style="margin-bottom: 0.8rem;">
+                    <label style="font-size: 0.85rem; font-weight: 600;">Contraseña</label>
+                    <input type="password" id="login-password" class="form-control" placeholder="Password123" required>
+                </div>
+                <div style="text-align: right; margin-bottom: 1.2rem;">
+                    <a href="#" id="show-forgot" style="font-size: 0.8rem; color: var(--text-muted);">¿Olvidaste tu contraseña?</a>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.75rem; margin-bottom: 1rem;">Entrar</button>
+                <p style="text-align: center; font-size: 0.85rem;">¿No tienes cuenta? <a href="#" id="show-register" style="color: var(--primary); font-weight: 600;">Regístrate aquí</a></p>
+            </form>
+
+            <!-- Formulario de Registro -->
+            <form id="form-register" style="display: none;">
+                <div class="form-group" style="margin-bottom: 0.8rem;">
+                    <label style="font-size: 0.85rem; font-weight: 600;">Nombre Completo</label>
+                    <input type="text" id="reg-name" class="form-control" placeholder="Tu Nombre" required>
+                </div>
+                <div class="form-group" style="margin-bottom: 0.8rem;">
+                    <label style="font-size: 0.85rem; font-weight: 600;">Correo Electrónico</label>
+                    <input type="email" id="reg-email" class="form-control" placeholder="correo@example.com" required>
+                </div>
+                <div class="form-group" style="margin-bottom: 1.2rem;">
+                    <label style="font-size: 0.85rem; font-weight: 600;">Contraseña</label>
+                    <input type="password" id="reg-password" class="form-control" placeholder="Mínimo 6 caracteres" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.75rem; margin-bottom: 1rem;">Crear Cuenta</button>
+                <p style="text-align: center; font-size: 0.85rem;">¿Ya tienes cuenta? <a href="#" id="show-login-from-reg" style="color: var(--primary); font-weight: 600;">Inicia sesión</a></p>
+            </form>
+
+            <!-- Formulario de Recuperación de Contraseña -->
+            <form id="form-forgot" style="display: none;">
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">Ingresa tu correo electrónico registrado y te enviaremos un enlace simulado de recuperación.</p>
+                <div class="form-group" style="margin-bottom: 1.2rem;">
+                    <label style="font-size: 0.85rem; font-weight: 600;">Correo Electrónico</label>
+                    <input type="email" id="forgot-email" class="form-control" placeholder="correo@example.com" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.75rem; margin-bottom: 1rem;">Enviar Enlace</button>
+                <p style="text-align: center; font-size: 0.85rem;"><a href="#" id="back-to-login" style="color: var(--primary); font-weight: 600;">Regresar al Login</a></p>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

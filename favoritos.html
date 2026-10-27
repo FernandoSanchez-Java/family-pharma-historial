@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Pharma - Mis Favoritos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header>
+        <div class="navbar">
+            <a href="index.html" class="logo">
+                <i class="fa-solid fa-plus"></i> Family Pharma
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Catálogo</a></li>
+                <li><a href="index.html#nosotros">Nosotros</a></li>
+                <li><a href="index.html#contacto">Contacto</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="favoritos.html" class="icon-btn" title="Favoritos"><i class="fa-solid fa-heart" style="color:#ef4444;"></i><span class="badge" id="fav-badge">0</span></a>
+                <a href="carrito.html" class="icon-btn" title="Carrito"><i class="fa-solid fa-bag-shopping" style="color:var(--primary)"></i><span class="badge" id="cart-badge">0</span></a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <h2 class="section-title"><i class="fa-solid fa-heart" style="color: #ef4444;"></i> Mis Productos Favoritos</h2>
+
+        <div id="fav-grid" class="product-grid">
+            <!-- Se llena dinámicamente -->
+        </div>
+    </div>
+
+    <script>
+        let favorites = JSON.parse(localStorage.getItem("fp_favs")) || [];
+        let cart = JSON.parse(localStorage.getItem("fp_cart")) || [];
+
+        document.addEventListener("DOMContentLoaded", () => {
+            renderFavorites();
+            updateBadges();
+        });
+
+        function renderFavorites() {
+            const grid = document.getElementById("fav-grid");
+            if (!grid) return;
+
+            if (favorites.length === 0) {
+                grid.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--text-muted);">
+                        <i class="fa-regular fa-heart" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.3;"></i>
+                        <p style="font-size: 1rem; margin-bottom: 1rem;">No tienes productos guardados en tus favoritos.</p>
+                        <a href="index.html" class="btn btn-primary">Explorar Catálogo</a>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = favorites.map((p, index) => `
+                <div style="background: white; border-radius: 8px; padding: 1rem; border: 1px solid #e2e8f0; display: flex; flex-direction: column; justify-content: space-between; height: 380px; position: relative; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
+                    <div style="width: 100%;">
+                        <div style="width: 100%; height: 140px; background: #fff; border-radius: 6px; overflow: hidden; display: flex; align-items: center; justify-content: center; margin-bottom: 0.8rem;">
+                            <img src="${p.img}" alt="${p.name}" style="width: 100%; height: 100%; object-fit: contain; display: block;">
+                        </div>
+                        <div style="font-size: 0.75rem; color: #64748b; font-weight: bold; text-transform: uppercase; margin-bottom: 0.3rem;">${p.category}</div>
+                        <h3 style="font-size: 0.95rem; color: #0f172a; height: 2.4rem; overflow: hidden; margin-bottom: 0.3rem;">${p.name}</h3>
+                    </div>
+                    <div style="width: 100%;">
+                        <div style="font-size: 1.1rem; font-weight: bold; color: #0284c7; margin-bottom: 0.8rem;">$${p.price.toFixed(2)} MXN</div>
+                        <div style="display: flex; gap: 0.5rem; justify-content: center;">
+                            <button onclick="addToCartFromFav(${p.id})" class="btn btn-primary" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">Mover al Carrito</button>
+                            <button onclick="removeFav(${index})" class="btn btn-outline" style="padding: 0.4rem 0.7rem; color: #ef4444; border-color: #fca5a5;" title="Quitar de favoritos">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join("");
+        }
+
+        function addToCartFromFav(id) {
+            const prod = favorites.find(p => p.id === id);
+            if (!prod) return;
+
+            const existing = cart.find(item => item.id === id);
+            if (existing) {
+                existing.quantity = (existing.quantity || 1) + 1;
+            } else {
+                cart.push({ id: prod.id, name: prod.name, price: prod.price, quantity: 1, img: prod.img, category: prod.category });
+            }
+
+            localStorage.setItem("fp_cart", JSON.stringify(cart));
+            updateBadges();
+            
+            // Notificación discreta
+            let toast = document.createElement("div");
+            toast.style.cssText = "position: fixed; bottom: 20px; right: 20px; background: #0f172a; color: white; padding: 0.8rem 1.2rem; border-radius: 8px; font-size: 0.85rem; font-weight: 500; z-index: 9999;";
+            toast.innerHTML = `<i class="fa-solid fa-circle-check" style="color: #22c55e;"></i> ¡"${prod.name}" agregado al carrito!`;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2000);
+        }
+
+        function removeFav(index) {
+            favorites.splice(index, 1);
+            localStorage.setItem("fp_favs", JSON.stringify(favorites));
+            renderFavorites();
+            updateBadges();
+        }
+
+        function updateBadges() {
+            const cartBadges = document.querySelectorAll("#cart-badge");
+            const favBadges = document.querySelectorAll("#fav-badge");
+            const totalCartItems = cart.reduce((acc, i) => acc + (i.quantity || 1), 0);
+            
+            cartBadges.forEach(b => b.textContent = totalCartItems);
+            favBadges.forEach(b => b.textContent = favorites.length);
+        }
+    </script>
+</body>
+</html>
