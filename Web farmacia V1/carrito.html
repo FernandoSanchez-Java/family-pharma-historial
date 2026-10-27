@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VITA Farmacia - Carrito de Compras</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header>
+        <div class="navbar">
+            <a href="index.html" class="logo">
+                <i class="fa-solid fa-plus"></i> VITA Farmacia
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Catálogo</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="favoritos.html" class="icon-btn" title="Favoritos"><i class="fa-regular fa-heart"></i></a>
+                <a href="carrito.html" class="icon-btn" title="Carrito"><i class="fa-solid fa-bag-shopping" style="color:var(--primary)"></i></a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <a href="index.html" class="btn-back"><i class="fa-solid fa-arrow-left"></i> Volver al inicio</a>
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <h2 class="section-title" style="margin-bottom: 0;">Carrito de Compras</h2>
+            <!-- Alta: Botón para agregar un producto adicional -->
+            <button id="btn-nuevo-producto" class="btn btn-outline"><i class="fa-solid fa-plus"></i> Agregar producto</button>
+        </div>
+
+        <div class="cart-layout">
+            <!-- Lista interactiva de productos (Altas, Bajas y Cambios) -->
+            <div class="card-box" style="background: white; padding: 0.5rem 1.5rem;">
+                <div id="cart-items-container">
+                    <!-- Los elementos del carrito se renderizan aquí dinámicamente -->
+                </div>
+            </div>
+
+            <!-- Resumen de Pedido -->
+            <div class="card-box">
+                <h3 style="margin-bottom: 1rem;">Resumen del pedido</h3>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--text-muted);">
+                    <span>Subtotal</span>
+                    <span id="cart-subtotal">$0.00 MXN</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 1.5rem; font-size: 0.9rem; color: var(--text-muted);">
+                    <span>Envío</span>
+                    <span>Gratis</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 1.5rem; font-weight: 700; font-size: 1.1rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+                    <span>Total</span>
+                    <span id="cart-total">$0.00 MXN</span>
+                </div>
+                <button class="btn btn-primary" style="width: 100%; padding: 0.75rem;">Proceder al Pago</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal simple para Agregar Producto (Alta) -->
+    <div id="modal-alta" class="modal">
+        <div class="modal-content">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 1rem;">
+                <h3>Agregar Producto al Carrito</h3>
+                <span id="close-modal" style="cursor:pointer; font-size: 1.2rem;"><i class="fa-solid fa-xmark"></i></span>
+            </div>
+            <form id="form-alta-producto">
+                <div class="form-group">
+                    <label>Nombre del Producto</label>
+                    <input type="text" id="nombre-prod" class="form-control" placeholder="Ej. Omeprazol 20mg" required>
+                </div>
+                <div class="form-group">
+                    <label>Precio (MXN)</label>
+                    <input type="number" id="precio-prod" class="form-control" placeholder="Ej. 120" min="1" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label>Cantidad Inicial</label>
+                    <input type="number" id="cantidad-prod" class="form-control" value="1" min="1" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Agregar al Carrito</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

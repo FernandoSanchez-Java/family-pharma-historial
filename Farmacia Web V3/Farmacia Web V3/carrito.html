@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Pharma - Carrito y Checkout</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header>
+        <div class="navbar">
+            <a href="index.html" class="logo">
+                <i class="fa-solid fa-plus"></i> Family Pharma
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Catálogo</a></li>
+                <li><a href="index.html#nosotros">Nosotros</a></li>
+                <li><a href="index.html#contacto">Contacto</a></li>
+            </ul>
+            <div class="nav-actions">
+                <div id="user-session-container">
+                    <span id="user-display" style="font-weight: 600; font-size: 0.9rem; color: var(--primary);"></span>
+                </div>
+                <a href="favoritos.html" class="icon-btn" title="Favoritos"><i class="fa-regular fa-heart"></i><span class="badge" id="fav-badge">0</span></a>
+                <a href="carrito.html" class="icon-btn" title="Carrito"><i class="fa-solid fa-bag-shopping" style="color:var(--primary)"></i><span class="badge" id="cart-badge">0</span></a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <a href="index.html" class="btn btn-outline" style="margin-bottom: 1.5rem; display: inline-flex; align-items: center; gap: 0.5rem;"><i class="fa-solid fa-arrow-left"></i> Volver al inicio</a>
+        
+        <h2 class="section-title">Carrito de Compras y Envío</h2>
+
+        <div class="cart-layout" style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
+            <!-- Lista de productos en el carrito -->
+            <div class="card-box" style="background: white; padding: 1.5rem; border-radius: var(--border-radius); border: 1px solid var(--border-color); box-shadow: var(--shadow);">
+                <h3 style="margin-bottom: 1rem; font-size: 1.2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">Medicamentos seleccionados</h3>
+                <div id="cart-items-container">
+                    <!-- Renderizado dinámico -->
+                </div>
+            </div>
+
+            <!-- Resumen de Pedido, Envío y Cupones -->
+            <div class="card-box" style="background: white; padding: 1.5rem; border-radius: var(--border-radius); border: 1px solid var(--border-color); box-shadow: var(--shadow); height: fit-content;">
+                <h3 style="margin-bottom: 1rem; font-size: 1.2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem;">Resumen del pedido</h3>
+                
+                <!-- Dirección de Entrega -->
+                <div style="margin-bottom: 1.2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem;">
+                    <h4 style="font-size: 0.9rem; margin-bottom: 0.5rem;"><i class="fa-solid fa-location-dot"></i> Dirección de Entrega</h4>
+                    <div class="form-group" style="margin-bottom: 0.5rem;">
+                        <input type="text" id="envio-calle" class="form-control" placeholder="Calle y Número" style="font-size: 0.85rem;" required>
+                    </div>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <input type="text" id="envio-colonia" class="form-control" placeholder="Colonia" style="font-size: 0.85rem;" required>
+                        <input type="text" id="envio-cp" class="form-control" placeholder="C.P." style="font-size: 0.85rem; width: 90px;" maxlength="5" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
+                    </div>
+                </div>
+
+                <!-- Cupón de Descuento -->
+                <div style="display: flex; gap: 0.5rem; margin-bottom: 0.5rem;">
+                    <input type="text" id="coupon-input" class="form-control" placeholder="Cupón (ej. FAMILY10)" style="font-size: 0.85rem;">
+                    <button id="btn-apply-coupon" class="btn btn-outline" style="padding: 0.5rem 0.8rem; font-size: 0.85rem;">Aplicar</button>
+                </div>
+                <div id="coupon-message" style="font-size: 0.8rem; margin-bottom: 1rem;"></div>
+
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--text-muted);">
+                    <span>Subtotal</span>
+                    <span id="cart-subtotal">$0.00 MXN</span>
+                </div>
+                <div id="discount-row" style="display: none; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--accent-green);">
+                    <span>Descuento (10%)</span>
+                    <span id="cart-discount">-$0.00 MXN</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; font-size: 0.9rem; color: var(--text-muted);">
+                    <span>Envío (Gratis desde $350)</span>
+                    <span id="cart-shipping">$50.00 MXN</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 1.5rem; font-weight: 700; font-size: 1.1rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+                    <span>Total</span>
+                    <span id="cart-total">$0.00 MXN</span>
+                </div>
+                <button id="btn-proceder-pago" class="btn btn-primary" style="width: 100%; padding: 0.75rem;">Proceder al Pago Seguro</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Pasarela de Pagos -->
+    <div id="modal-payment" class="modal">
+        <div class="modal-content" style="max-width: 480px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 1rem;">
+                <h3>Simulador de Pago Seguro</h3>
+                <span id="close-payment-modal" style="cursor:pointer; font-size: 1.2rem;"><i class="fa-solid fa-xmark"></i></span>
+            </div>
+            
+            <form id="form-payment-card">
+                <div class="form-group">
+                    <label>Titular de la Tarjeta</label>
+                    <input type="text" id="card-holder" class="form-control" placeholder="Nombre completo" required>
+                </div>
+                <div class="form-group">
+                    <label>Número de Tarjeta (16 dígitos)</label>
+                    <input type="text" id="card-number" class="form-control" placeholder="4532123456789012" maxlength="16" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
+                </div>
+                <div style="display: flex; gap: 1rem;">
+                    <div class="form-group" style="flex: 1;">
+                        <label>Expiración (MM/AA)</label>
+                        <input type="text" id="card-exp" class="form-control" placeholder="MM/AA" maxlength="5" required>
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label>CVV</label>
+                        <input type="password" id="card-cvv" class="form-control" placeholder="123" maxlength="4" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem; padding: 0.8rem;">
+                    Confirmar Pago
+                </button>
+            </form>
+
+            <div id="payment-status-loading" style="display:none; text-align:center; padding: 2rem 0;">
+                <i class="fa-solid fa-circle-notch fa-spin" style="font-size: 2.5rem; color: var(--primary); margin-bottom: 1rem;"></i>
+                <p style="font-weight:600;">Procesando transacción bancaria simulada...</p>
+            </div>
+
+            <div id="payment-success-box" style="display:none; text-align:center; padding: 1rem 0;">
+                <i class="fa-solid fa-circle-check" style="font-size: 3rem; color: var(--accent-green); margin-bottom: 0.5rem;"></i>
+                <h3 style="color: var(--accent-green);">¡Compra Realizada con Éxito!</h3>
+                <p style="font-size: 0.9rem; color: var(--text-muted); margin: 0.5rem 0 1.5rem 0;">Número de Orden: <strong id="order-id-label">#FP-0000</strong></p>
+                
+                <button id="btn-abrir-factura" class="btn btn-outline" style="width: 100%; margin-bottom: 0.5rem;">
+                    <i class="fa-solid fa-file-invoice"></i> Generar Factura Electrónica (CFDI 4.0)
+                </button>
+                <a href="index.html" class="btn btn-primary" style="width: 100%; display: inline-block; margin-top: 0.5rem;">Volver a la Tienda</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Facturación CFDI 4.0 -->
+    <div id="modal-invoice" class="modal">
+        <div class="modal-content" style="max-width: 550px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 1rem;">
+                <h3>Facturación Electrónica (CFDI 4.0)</h3>
+                <span id="close-invoice-modal" style="cursor:pointer; font-size: 1.2rem;"><i class="fa-solid fa-xmark"></i></span>
+            </div>
+            
+            <form id="form-invoice">
+                <div class="form-group">
+                    <label>Tipo de Contribuyente</label>
+                    <select id="inv-tipo" class="form-control">
+                        <option value="fisica">Persona Física (13 dígitos)</option>
+                        <option value="moral">Persona Moral / Empresa (12 dígitos)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>RFC del Receptor</label>
+                    <input type="text" id="inv-rfc" class="form-control" placeholder="XAXX010101000" maxlength="13" required>
+                </div>
+                <div class="form-group">
+                    <label>Nombre o Razón Social</label>
+                    <input type="text" id="inv-name" class="form-control" placeholder="Nombre completo o Empresa" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Generar Comprobante Fiscal</button>
+            </form>
+
+            <div id="invoice-preview" style="display:none; border: 1px solid var(--border-color); padding: 1rem; border-radius: 6px; margin-top: 1rem; text-align:left; background: #fafafa;">
+                <div style="display:flex; justify-content:space-between; align-items:center; border-bottom: 1px solid #ddd; padding-bottom: 0.5rem;">
+                    <strong>FAMILY PHARMA S.A. DE C.V.</strong>
+                    <span style="font-size: 0.8rem; color: var(--text-muted);">CFDI 4.0</span>
+                </div>
+                <p style="font-size: 0.8rem; margin-top: 0.5rem;"><strong>RFC Emisor:</strong> FPH241027XYZ</p>
+                <p style="font-size: 0.8rem;"><strong>Receptor:</strong> <span id="fact-receptor-label">-</span></p>
+                <p style="font-size: 0.8rem;"><strong>RFC Receptor:</strong> <span id="fact-rfc-label">-</span></p>
+                <p style="font-size: 0.8rem;"><strong>Folio Fiscal (UUID):</strong> 8F3D1A2B-4C5E-6F7A-8B9C-0D1E2F3A4B5C</p>
+                
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top: 1rem; padding-top: 0.5rem; border-top: 1px dashed #ccc;">
+                    <div>
+                        <div style="font-size: 0.75rem; color: var(--text-muted);">Sello Digital Verificado</div>
+                        <i class="fa-solid fa-qrcode" style="font-size: 3rem; margin-top: 4px;"></i>
+                    </div>
+                    <div style="text-align:right;">
+                        <p style="font-size: 0.85rem;"><strong>Total IVA Incluido:</strong></p>
+                        <p style="font-size: 1.2rem; font-weight:800; color:var(--primary);" id="fact-total-label">$0.00 MXN</p>
+                    </div>
+                </div>
+                <button id="btn-descargar-pdf" class="btn btn-primary" style="width: 100%; margin-top: 1rem; font-size: 0.85rem;">
+                    <i class="fa-solid fa-download"></i> Descargar / Imprimir PDF Factura
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script con límites de cantidad protegidos (Mín 1, Máx 20) -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            let cart = JSON.parse(localStorage.getItem("fp_cart")) || [];
+            let favorites = JSON.parse(localStorage.getItem("fp_favs")) || [];
+            let currentUser = JSON.parse(localStorage.getItem("pharma_current_user")) || null;
+            let finalPaidAmount = 0;
+            let discountApplied = false;
+
+            if (currentUser) {
+                const userDisplay = document.getElementById("user-display");
+                if (userDisplay) userDisplay.textContent = `Hola, ${currentUser.name}`;
+            }
+
+            function updateBadges() {
+                const cartBadge = document.getElementById("cart-badge");
+                const favBadge = document.getElementById("fav-badge");
+                if (cartBadge) cartBadge.textContent = cart.reduce((acc, item) => acc + (item.quantity || 1), 0);
+                if (favBadge) favBadge.textContent = favorites.length;
+            }
+
+            const container = document.getElementById("cart-items-container");
+            const subtotalEl = document.getElementById("cart-subtotal");
+            const discountRow = document.getElementById("discount-row");
+            const discountEl = document.getElementById("cart-discount");
+            const totalEl = document.getElementById("cart-total");
+
+            function renderCart() {
+                container.innerHTML = "";
+                if (cart.length === 0) {
+                    container.innerHTML = `<p style="text-align: center; padding: 2rem; color: var(--text-muted);">Tu carrito está vacío.</p>`;
+                    subtotalEl.textContent = "$0.00 MXN";
+                    document.getElementById("cart-shipping").textContent = "$50.00 MXN";
+                    totalEl.textContent = "$50.00 MXN";
+                    if (discountRow) discountRow.style.display = "none";
+                    return;
+                }
+
+                let subtotal = 0;
+                cart.forEach((prod) => {
+                    let qty = prod.quantity || 1;
+                    let cost = prod.price * qty;
+                    subtotal += cost;
+
+                    const row = document.createElement("div");
+                    row.style.cssText = "display: flex; align-items: center; justify-content: space-between; padding: 1rem 0; border-bottom: 1px solid var(--border-color); flex-wrap: wrap; gap: 1rem;";
+                    row.innerHTML = `
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <img src="${prod.img}" alt="${prod.name}" style="width: 60px; height: 60px; object-fit: contain; border-radius: 6px; background: #fff; border: 1px solid #eee;">
+                            <div>
+                                <h4 style="font-size: 0.95rem; margin-bottom: 0.2rem;">${prod.name}</h4>
+                                <p style="font-size: 0.85rem; color: var(--text-muted);">Precio: $${prod.price.toFixed(2)} MXN</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="display: flex; align-items: center; gap: 0.3rem; border: 1px solid var(--border-color); border-radius: 4px; padding: 0.2rem;">
+                                <button class="btn btn-outline btn-decrease" data-id="${prod.id}" style="padding: 0.1rem 0.5rem; font-size: 0.8rem; border: none;">-</button>
+                                <span style="padding: 0 0.3rem; font-weight: 600; font-size: 0.9rem;">${qty}</span>
+                                <button class="btn btn-outline btn-increase" data-id="${prod.id}" style="padding: 0.1rem 0.5rem; font-size: 0.8rem; border: none;">+</button>
+                            </div>
+                            <span style="font-weight: bold; color: var(--primary); min-width: 80px; text-align: right;">$${cost.toFixed(2)} MXN</span>
+                            <button class="btn btn-outline btn-remove" data-id="${prod.id}" style="padding: 0.3rem 0.6rem; color: var(--accent-red); border-color: var(--accent-red);" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    `;
+                    container.appendChild(row);
+                });
+
+                // Regla de Envío Gratis a partir de $350 MXN
+                let shipping = subtotal >= 350 ? 0 : 50.00;
+                const shippingEl = document.getElementById("cart-shipping");
+                if (shipping === 0) {
+                    shippingEl.innerHTML = `<span style="color: var(--accent-green); font-weight: bold;">¡GRATIS!</span>`;
+                } else {
+                    shippingEl.textContent = `$${shipping.toFixed(2)} MXN`;
+                }
+
+                let discountVal = discountApplied ? subtotal * 0.10 : 0;
+                let total = subtotal - discountVal + shipping;
+                finalPaidAmount = total;
+
+                subtotalEl.textContent = `$${subtotal.toFixed(2)} MXN`;
+                if (discountApplied) {
+                    discountRow.style.display = "flex";
+                    discountEl.textContent = `-$${discountVal.toFixed(2)} MXN`;
+                } else {
+                    discountRow.style.display = "none";
+                }
+                totalEl.textContent = `$${total.toFixed(2)} MXN`;
+
+                // Botón Incrementar (+) con Límite Máximo de 20 piezas
+                document.querySelectorAll(".btn-increase").forEach(btn => {
+                    btn.addEventListener("click", (e) => {
+                        const id = parseInt(e.currentTarget.getAttribute("data-id"));
+                        const item = cart.find(p => p.id === id);
+                        if (item) {
+                            if ((item.quantity || 1) < 20) {
+                                item.quantity = (item.quantity || 1) + 1;
+                                localStorage.setItem("fp_cart", JSON.stringify(cart));
+                                updateBadges();
+                                renderCart();
+                            } else {
+                                alert("Has alcanzado el límite máximo permitido de 20 unidades por medicamento.");
+                            }
+                        }
+                    });
+                });
+
+                // Botón Disminuir (-) con Límite Mínimo de 1 pieza (no baja a 0 ni negativo)
+                document.querySelectorAll(".btn-decrease").forEach(btn => {
+                    btn.addEventListener("click", (e) => {
+                        const id = parseInt(e.currentTarget.getAttribute("data-id"));
+                        const item = cart.find(p => p.id === id);
+                        if (item) {
+                            if ((item.quantity || 1) > 1) {
+                                item.quantity = (item.quantity || 1) - 1;
+                                localStorage.setItem("fp_cart", JSON.stringify(cart));
+                                updateBadges();
+                                renderCart();
+                            } else {
+                                alert("La cantidad mínima es 1. Si deseas eliminar el producto, usa el botón de la papelera.");
+                            }
+                        }
+                    });
+                });
+
+                // Botón Eliminar Producto por ID
+                document.querySelectorAll(".btn-remove").forEach(btn => {
+                    btn.addEventListener("click", (e) => {
+                        const id = parseInt(e.currentTarget.getAttribute("data-id"));
+                        cart = cart.filter(item => item.id !== id);
+                        localStorage.setItem("fp_cart", JSON.stringify(cart));
+                        updateBadges();
+                        renderCart();
+                    });
+                });
+            }
+
+            // Aplicar Cupón
+            const btnApplyCoupon = document.getElementById("btn-apply-coupon");
+            const couponInput = document.getElementById("coupon-input");
+            const couponMsg = document.getElementById("coupon-message");
+
+            if (btnApplyCoupon) {
+                btnApplyCoupon.addEventListener("click", () => {
+                    const code = couponInput.value.trim().toUpperCase();
+                    if (code === "FAMILY10") {
+                        discountApplied = true;
+                        couponMsg.style.color = "var(--accent-green)";
+                        couponMsg.textContent = "¡Cupón aplicado con éxito (-10%)!";
+                        renderCart();
+                    } else {
+                        discountApplied = false;
+                        couponMsg.style.color = "var(--accent-red)";
+                        couponMsg.textContent = "Cupón inválido o expirado.";
+                        renderCart();
+                    }
+                });
+            }
+
+            // Modales de Pago y Facturación
+            const btnProceder = document.getElementById("btn-proceder-pago");
+            const modalPayment = document.getElementById("modal-payment");
+            const closePayment = document.getElementById("close-payment-modal");
+            const formPayment = document.getElementById("form-payment-card");
+            const loadingBox = document.getElementById("payment-status-loading");
+            const successBox = document.getElementById("payment-success-box");
+
+            const modalInvoice = document.getElementById("modal-invoice");
+            const btnAbrirFactura = document.getElementById("btn-abrir-factura");
+            const closeInvoice = document.getElementById("close-invoice-modal");
+            const formInvoice = document.getElementById("form-invoice");
+
+            if (btnProceder) {
+                btnProceder.addEventListener("click", () => {
+                    if (cart.length === 0) {
+                        alert("Tu carrito está vacío.");
+                        return;
+                    }
+                    const calle = document.getElementById("envio-calle").value;
+                    const colonia = document.getElementById("envio-colonia").value;
+                    const cp = document.getElementById("envio-cp").value;
+                    if (!calle || !colonia || !cp) {
+                        alert("Por favor completa la dirección de entrega.");
+                        return;
+                    }
+                    modalPayment.style.display = "flex";
+                });
+            }
+
+            if (closePayment) closePayment.addEventListener("click", () => { modalPayment.style.display = "none"; });
+
+            if (formPayment) {
+                formPayment.addEventListener("submit", (e) => {
+                    e.preventDefault();
+                    formPayment.style.display = "none";
+                    loadingBox.style.display = "block";
+
+                    setTimeout(() => {
+                        loadingBox.style.display = "none";
+                        successBox.style.display = "block";
+                        document.getElementById("order-id-label").textContent = "#FP-" + Math.floor(100000 + Math.random() * 900000);
+                        
+                        cart = [];
+                        localStorage.setItem("fp_cart", JSON.stringify(cart));
+                        updateBadges();
+                    }, 1500);
+                });
+            }
+
+            if (btnAbrirFactura) {
+                btnAbrirFactura.addEventListener("click", () => {
+                    modalPayment.style.display = "none";
+                    modalInvoice.style.display = "flex";
+                });
+            }
+
+            if (closeInvoice) closeInvoice.addEventListener("click", () => { modalInvoice.style.display = "none"; });
+
+            if (formInvoice) {
+                formInvoice.addEventListener("submit", (e) => {
+                    e.preventDefault();
+                    const name = document.getElementById("inv-name").value;
+                    const rfc = document.getElementById("inv-rfc").value;
+
+                    document.getElementById("fact-receptor-label").textContent = name;
+                    document.getElementById("fact-rfc-label").textContent = rfc;
+                    document.getElementById("fact-total-label").textContent = `$${finalPaidAmount.toFixed(2)} MXN`;
+
+                    formInvoice.style.display = "none";
+                    document.getElementById("invoice-preview").style.display = "block";
+                });
+            }
+
+            const btnDescargarPdf = document.getElementById("btn-descargar-pdf");
+            if (btnDescargarPdf) {
+                btnDescargarPdf.addEventListener("click", () => {
+                    alert("CFDI 4.0 generado y descargado correctamente en PDF.");
+                    modalInvoice.style.display = "none";
+                });
+            }
+
+            updateBadges();
+            renderCart();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Pharma - Catálogo e Inicio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Navegación -->
+    <header>
+        <div class="navbar">
+            <a href="index.html" class="logo">
+                <i class="fa-solid fa-plus"></i> Family Pharma
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Catálogo</a></li>
+                <li><a href="#recomendaciones">Recomendados</a></li>
+                <li><a href="#opiniones">Reseñas</a></li>
+                <li><a href="#faq">Ayuda</a></li>
+            </ul>
+            <div class="nav-actions">
+                <div id="user-session-container">
+                    <button id="btn-open-login" class="btn btn-outline" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;"><i class="fa-solid fa-user"></i> Iniciar Sesión</button>
+                </div>
+                <a href="favoritos.html" class="icon-btn" title="Favoritos">
+                    <i class="fa-regular fa-heart"></i>
+                    <span class="badge" id="fav-badge">0</span>
+                </a>
+                <a href="carrito.html" class="icon-btn" title="Carrito de compras">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span class="badge" id="cart-badge">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero / Buscador estilo Mercado Libre -->
+    <section class="hero">
+        <h1>Salud y bienestar para tu familia</h1>
+        <p>Encuentra medicamentos y productos de cuidado personal al instante.</p>
+        <div class="search-box">
+            <input type="text" id="input-busqueda-ml" placeholder="Buscar medicamento (ej. Paracetamol, Ibuprofeno, Omeprazol)...">
+            <button id="btn-buscar-ml"><i class="fa-solid fa-magnifying-glass"></i> Buscar</button>
+        </div>
+    </section>
+
+    <div class="container">
+        
+        <!-- Catálogo Dinámico Estilo Mercado Libre -->
+        <h2 class="section-title" id="titulo-catalogo">Catálogo Destacado de Medicamentos</h2>
+        <div class="grid-products" id="catalogo-productos-container">
+            <!-- Los productos se cargan dinámicamente desde JS para permitir la búsqueda -->
+        </div>
+
+        <!-- Recomendaciones y Reseñas -->
+        <div class="content-grid" id="recomendaciones">
+            <div class="card-box">
+                <h3>Recomendados para ti</h3>
+                <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">Basado en tu salud y prevención familiar.</p>
+                <div style="display: flex; gap: 1rem; align-items: center; background: white; padding: 0.75rem; border-radius: var(--radius); border: 1px solid var(--border-color);">
+                    <img src="https://images.unsplash.com/photo-1471864190281-a93a3070b6de?auto=format&fit=crop&w=80&q=80" style="width: 50px; height: 50px; border-radius: 4px; object-fit: cover;">
+                    <div>
+                        <div style="font-weight: 600; font-size: 0.9rem;">Kit Hidratación y Defensas</div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted);">Suero Oral + Vitamina C ($76.50 MXN)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-box" id="opiniones">
+                <h3>Reseñas de Clientes</h3>
+                <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">"Precios super accesibles y medicamentos de calidad. Excelente atención en la sucursal de Xochiapan."</p>
+                <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-main);">— M. Hernández (Cliente verificado)</div>
+            </div>
+        </div>
+
+        <!-- Preguntas Frecuentes -->
+        <section id="faq" class="faq-section">
+            <h2 class="section-title">Preguntas Frecuentes</h2>
+            <div class="faq-container">
+                <details class="faq-item" open>
+                    <summary class="faq-question">
+                        <span>¿Cuál es el tiempo estimado de entrega?</span>
+                        <i class="fa-solid fa-chevron-down faq-icon"></i>
+                    </summary>
+                    <div class="faq-answer">
+                        El tiempo estimado de entrega es de <strong>1 a 2 días hábiles</strong> directamente en tu domicilio.
+                    </div>
+                </details>
+
+                <details class="faq-item">
+                    <summary class="faq-question">
+                        <span>¿Dónde se encuentra ubicada la farmacia física?</span>
+                        <i class="fa-solid fa-chevron-down faq-icon"></i>
+                    </summary>
+                    <div class="faq-answer">
+                        Nos ubicamos en Xochiapan 85, Pedregal de Santo Domingo, Coyoacán, CDMX.
+                    </div>
+                </details>
+
+                <details class="faq-item">
+                    <summary class="faq-question">
+                        <span>¿Cuáles son los costos de envío?</span>
+                        <i class="fa-solid fa-chevron-down faq-icon"></i>
+                    </summary>
+                    <div class="faq-answer">
+                        El envío es gratuito en compras mayores a <strong>$350.00 MXN</strong>.
+                    </div>
+                </details>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer-section">
+            <div class="social-links">
+                <a href="https://instagram.com" target="_blank" class="social-link instagram" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="https://tiktok.com" target="_blank" class="social-link tiktok" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+                <a href="https://facebook.com" target="_blank" class="social-link facebook" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="https://whatsapp.com" target="_blank" class="social-link whatsapp" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+
+            <div class="payment-methods">
+                <p>Métodos de pago aceptados</p>
+                <div class="payment-badges">
+                    <i class="fa-brands fa-cc-visa visa" title="Visa"></i>
+                    <i class="fa-brands fa-cc-mastercard mastercard" title="Mastercard"></i>
+                    <i class="fa-brands fa-cc-paypal paypal" title="PayPal"></i>
+                    <i class="fa-brands fa-apple-pay applepay" title="Apple Pay"></i>
+                    <i class="fa-brands fa-google-pay googlepay" title="Google Pay"></i>
+                </div>
+            </div>
+
+            <p class="copyright">&copy; 2026 Family Pharma. Todos los derechos reservados.</p>
+        </footer>
+    </div>
+
+    <!-- Modal de Autenticación con Validación de Seguridad Real -->
+    <div id="modal-auth" class="modal">
+        <div class="modal-content">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 1rem;">
+                <h3 id="auth-title">Iniciar Sesión</h3>
+                <span id="close-auth-modal" style="cursor:pointer; font-size: 1.2rem;"><i class="fa-solid fa-xmark"></i></span>
+            </div>
+            
+            <!-- Formulario Login con validación -->
+            <form id="form-login">
+                <div id="login-error" style="color: var(--accent-red); font-size: 0.85rem; margin-bottom: 0.75rem; display:none;"></div>
+                <div class="form-group">
+                    <label>Correo Electrónico</label>
+                    <input type="email" id="login-email" class="form-control" placeholder="ejemplo@correo.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Contraseña</label>
+                    <input type="password" id="login-password" class="form-control" placeholder="••••••••" required>
+                </div>
+                <div style="text-align: right; margin-bottom: 0.5rem;">
+                    <a href="#" id="link-forgot-pass" style="font-size: 0.8rem; color: var(--text-muted);">¿Olvidaste tu contraseña?</a>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 0.5rem;">Entrar</button>
+                <p style="text-align:center; font-size: 0.85rem; margin-top: 1rem; color: var(--text-muted);">
+                    ¿No tienes cuenta? <a href="#" id="link-show-register" style="color: var(--primary); font-weight:600;">Regístrate aquí</a>
+                </p>
+            </form>
+
+            <!-- Formulario Registro -->
+            <form id="form-register" style="display: none;">
+                <div id="reg-error" style="color: var(--accent-red); font-size: 0.85rem; margin-bottom: 0.75rem; display:none;"></div>
+                <div class="form-group">
+                    <label>Nombre Completo</label>
+                    <input type="text" id="reg-name" class="form-control" placeholder="Ej. Carlos Hernández" required>
+                </div>
+                <div class="form-group">
+                    <label>Correo Electrónico</label>
+                    <input type="email" id="reg-email" class="form-control" placeholder="ejemplo@correo.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Contraseña (mínimo 6 caracteres)</label>
+                    <input type="password" id="reg-password" class="form-control" placeholder="••••••••" minlength="6" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Crear Cuenta</button>
+                <p style="text-align:center; font-size: 0.85rem; margin-top: 1rem; color: var(--text-muted);">
+                    ¿Ya tienes cuenta? <a href="#" id="link-show-login" style="color: var(--primary); font-weight:600;">Inicia sesión</a>
+                </p>
+            </form>
+
+            <!-- Formulario Recuperar Contraseña -->
+            <form id="form-forgot" style="display: none;">
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">Ingresa tu correo registrado y validaremos la existencia de la cuenta en el sistema.</p>
+                <div id="forgot-msg" style="font-size: 0.85rem; margin-bottom: 0.75rem; display:none;"></div>
+                <div class="form-group">
+                    <label>Correo Electrónico</label>
+                    <input type="email" id="forgot-email" class="form-control" placeholder="ejemplo@correo.com" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Enviar Enlace</button>
+                <p style="text-align:center; font-size: 0.85rem; margin-top: 1rem; color: var(--text-muted);">
+                    <a href="#" id="link-back-login" style="color: var(--primary); font-weight:600;">Regresar al Login</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

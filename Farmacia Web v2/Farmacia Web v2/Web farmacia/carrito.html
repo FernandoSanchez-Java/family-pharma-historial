@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Pharma - Carrito de Compras</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header>
+        <div class="navbar">
+            <a href="index.html" class="logo">
+                <i class="fa-solid fa-plus"></i> Family Pharma
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Catálogo</a></li>
+            </ul>
+            <div class="nav-actions">
+                <div id="user-session-container">
+                    <button id="btn-open-login" class="btn btn-outline" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;"><i class="fa-solid fa-user"></i> Iniciar Sesión</button>
+                </div>
+                <a href="favoritos.html" class="icon-btn" title="Favoritos"><i class="fa-regular fa-heart"></i><span class="badge" id="fav-badge">0</span></a>
+                <a href="carrito.html" class="icon-btn" title="Carrito"><i class="fa-solid fa-bag-shopping" style="color:var(--primary)"></i><span class="badge" id="cart-badge">0</span></a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <a href="index.html" class="btn-back"><i class="fa-solid fa-arrow-left"></i> Volver al inicio</a>
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <h2 class="section-title" style="margin-bottom: 0;">Carrito de Compras</h2>
+            <button id="btn-nuevo-producto" class="btn btn-outline"><i class="fa-solid fa-plus"></i> Agregar producto</button>
+        </div>
+
+        <div class="cart-layout">
+            <div class="card-box" style="background: white; padding: 0.5rem 1.5rem;">
+                <div id="cart-items-container">
+                    <!-- Los elementos se renderizan dinámicamente -->
+                </div>
+            </div>
+
+            <!-- Resumen de Pedido y Cupones -->
+            <div class="card-box">
+                <h3 style="margin-bottom: 1rem;">Resumen del pedido</h3>
+                
+                <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+                    <input type="text" id="coupon-input" class="form-control" placeholder="Cupón (ej. FAMILY10)" style="font-size: 0.85rem;">
+                    <button id="btn-apply-coupon" class="btn btn-outline" style="padding: 0.5rem 0.8rem; font-size: 0.85rem;">Aplicar</button>
+                </div>
+                <div id="coupon-message" style="font-size: 0.8rem; margin-bottom: 1rem;"></div>
+
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--text-muted);">
+                    <span>Subtotal</span>
+                    <span id="cart-subtotal">$0.00 MXN</span>
+                </div>
+                <div id="discount-row" style="display: none; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem; color: #16a34a;">
+                    <span>Descuento (10%)</span>
+                    <span id="cart-discount">-$0.00 MXN</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 1.5rem; font-size: 0.9rem; color: var(--text-muted);">
+                    <span>Envío</span>
+                    <span>Gratis</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 1.5rem; font-weight: 700; font-size: 1.1rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+                    <span>Total</span>
+                    <span id="cart-total">$0.00 MXN</span>
+                </div>
+                <button id="btn-proceder-pago" class="btn btn-primary" style="width: 100%; padding: 0.75rem;">Proceder al Pago</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Alta Producto -->
+    <div id="modal-alta" class="modal">
+        <div class="modal-content">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 1rem;">
+                <h3>Agregar Producto al Carrito</h3>
+                <span id="close-modal" style="cursor:pointer; font-size: 1.2rem;"><i class="fa-solid fa-xmark"></i></span>
+            </div>
+            <form id="form-alta-producto">
+                <div class="form-group">
+                    <label>Nombre del Producto</label>
+                    <input type="text" id="nombre-prod" class="form-control" placeholder="Ej. Omeprazol 20mg" required>
+                </div>
+                <div class="form-group">
+                    <label>Precio (MXN)</label>
+                    <input type="number" id="precio-prod" class="form-control" placeholder="Ej. 59" min="1" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label>Cantidad Inicial</label>
+                    <input type="number" id="cantidad-prod" class="form-control" value="1" min="1" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Agregar al Carrito</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Pasarela de Pagos -->
+    <div id="modal-payment" class="modal">
+        <div class="modal-content" style="max-width: 480px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 1rem;">
+                <h3>Simulador de Pago Seguro</h3>
+                <span id="close-payment-modal" style="cursor:pointer; font-size: 1.2rem;"><i class="fa-solid fa-xmark"></i></span>
+            </div>
+            
+            <form id="form-payment-card">
+                <div class="form-group">
+                    <label>Titular de la Tarjeta</label>
+                    <input type="text" id="card-holder" class="form-control" placeholder="Nombre completo" required>
+                </div>
+                <div class="form-group">
+                    <label>Número de Tarjeta</label>
+                    <input type="text" id="card-number" class="form-control" placeholder="4532 •••• •••• 8890" maxlength="19" required>
+                </div>
+                <div style="display: flex; gap: 1rem;">
+                    <div class="form-group" style="flex: 1;">
+                        <label>Expiración</label>
+                        <input type="text" class="form-control" placeholder="MM/AA" maxlength="5" required>
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label>CVV</label>
+                        <input type="password" class="form-control" placeholder="123" maxlength="4" required>
+                    </div>
+                </div>
+                <button type="submit" id="btn-pay-confirm" class="btn btn-primary" style="width: 100%; margin-top: 1rem; padding: 0.8rem;">
+                    Confirmar Pago
+                </button>
+            </form>
+
+            <div id="payment-status-loading" style="display:none; text-align:center; padding: 2rem 0;">
+                <i class="fa-solid fa-circle-notch fa-spin" style="font-size: 2.5rem; color: var(--primary); margin-bottom: 1rem;"></i>
+                <p style="font-weight:600;">Procesando transacción bancaria simulada...</p>
+            </div>
+
+            <div id="payment-success-box" style="display:none; text-align:center; padding: 1rem 0;">
+                <i class="fa-solid fa-circle-check" style="font-size: 3rem; color: #16a34a; margin-bottom: 0.5rem;"></i>
+                <h3 style="color: #16a34a;">¡Compra Realizada con Éxito!</h3>
+                <p style="font-size: 0.9rem; color: var(--text-muted); margin: 0.5rem 0 1.5rem 0;">Número de Orden: <strong id="order-id-label">#FP-0000</strong></p>
+                
+                <button id="btn-abrir-factura" class="btn btn-outline" style="width: 100%; margin-bottom: 0.5rem;">
+                    <i class="fa-solid fa-file-invoice"></i> Generar Factura Electrónica (CFDI)
+                </button>
+                <a href="index.html" class="btn btn-primary" style="width: 100%; display: inline-block;">Volver a la Tienda</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Facturación CFDI -->
+    <div id="modal-invoice" class="modal">
+        <div class="modal-content" style="max-width: 550px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 1rem;">
+                <h3>Facturación Electrónica (CFDI 4.0)</h3>
+                <span id="close-invoice-modal" style="cursor:pointer; font-size: 1.2rem;"><i class="fa-solid fa-xmark"></i></span>
+            </div>
+            
+            <form id="form-invoice">
+                <div class="form-group">
+                    <label>RFC del Receptor</label>
+                    <input type="text" id="inv-rfc" class="form-control" placeholder="XAXX010101000" required>
+                </div>
+                <div class="form-group">
+                    <label>Nombre o Razón Social</label>
+                    <input type="text" id="inv-name" class="form-control" placeholder="Nombre completo o Empresa" required>
+                </div>
+                <div class="form-group">
+                    <label>Uso de CFDI</label>
+                    <select class="form-control">
+                        <option>G01 - Adquisición de mercancías</option>
+                        <option>G03 - Gastos en general</option>
+                        <option>D07 - Gastos médicos y hospitalarios</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Generar PDF de Factura</button>
+            </form>
+
+            <div id="invoice-preview" style="display:none; border: 1px solid var(--border-color); padding: 1rem; border-radius: 6px; margin-top: 1rem; text-align:left; background: #fafafa;">
+                <div style="display:flex; justify-content:space-between; align-items:center; border-bottom: 1px solid #ddd; padding-bottom: 0.5rem;">
+                    <strong>FAMILY PHARMA S.A. DE C.V.</strong>
+                    <span style="font-size: 0.8rem; color: var(--text-muted);">CFDI 4.0</span>
+                </div>
+                <p style="font-size: 0.8rem; margin-top: 0.5rem;"><strong>RFC Emisor:</strong> FPH241027XYZ</p>
+                <p style="font-size: 0.8rem;"><strong>Receptor:</strong> <span id="fact-receptor-label">-</span></p>
+                <p style="font-size: 0.8rem;"><strong>RFC Receptor:</strong> <span id="fact-rfc-label">-</span></p>
+                <p style="font-size: 0.8rem;"><strong>Folio Fiscal (UUID):</strong> 8F3D1A2B-4C5E-6F7A-8B9C-0D1E2F3A4B5C</p>
+                
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top: 1rem; padding-top: 0.5rem; border-top: 1px dashed #ccc;">
+                    <div>
+                        <div style="font-size: 0.75rem; color: var(--text-muted);">Sello Digital Verificado</div>
+                        <i class="fa-solid fa-qrcode" style="font-size: 3rem; margin-top: 4px;"></i>
+                    </div>
+                    <div style="text-align:right;">
+                        <p style="font-size: 0.85rem;"><strong>Total IVA Incluido:</strong></p>
+                        <p style="font-size: 1.2rem; font-weight:800; color:var(--primary);" id="fact-total-label">$0.00 MXN</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Autenticación -->
+    <div id="modal-auth" class="modal">
+        <div class="modal-content">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 1rem;">
+                <h3 id="auth-title">Iniciar Sesión</h3>
+                <span id="close-auth-modal" style="cursor:pointer; font-size: 1.2rem;"><i class="fa-solid fa-xmark"></i></span>
+            </div>
+            <form id="form-login">
+                <div class="form-group">
+                    <label>Correo Electrónico</label>
+                    <input type="email" id="login-email" class="form-control" placeholder="ejemplo@correo.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Contraseña</label>
+                    <input type="password" id="login-password" class="form-control" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Entrar</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

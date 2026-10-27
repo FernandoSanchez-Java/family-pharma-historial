@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Pharma - Mis Favoritos (Wishlist)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header>
+        <div class="navbar">
+            <a href="index.html" class="logo">
+                <i class="fa-solid fa-plus"></i> Family Pharma
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Catálogo</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="favoritos.html" class="icon-btn" title="Favoritos"><i class="fa-solid fa-heart" style="color:var(--accent-red)"></i><span class="badge" id="fav-badge">0</span></a>
+                <a href="carrito.html" class="icon-btn" title="Carrito"><i class="fa-solid fa-bag-shopping"></i><span class="badge" id="cart-badge">0</span></a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <a href="index.html" class="btn-back"><i class="fa-solid fa-arrow-left"></i> Volver al inicio</a>
+        <h2 class="section-title">Mis Medicamentos Favoritos (Wishlist)</h2>
+        <div class="grid-products" id="fav-products-container">
+            <!-- Renderizado dinámico de favoritos -->
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            let favorites = JSON.parse(localStorage.getItem("fp_favs")) || [];
+            let cart = JSON.parse(localStorage.getItem("fp_cart")) || [];
+
+            function updateBadges() {
+                document.getElementById("cart-badge").textContent = cart.reduce((acc, item) => acc + item.quantity, 0);
+                document.getElementById("fav-badge").textContent = favorites.length;
+            }
+
+            const container = document.getElementById("fav-products-container");
+
+            function renderFavs() {
+                container.innerHTML = "";
+                if (favorites.length === 0) {
+                    container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--text-muted);">No tienes productos guardados en favoritos.</div>`;
+                    return;
+                }
+
+                favorites.forEach(prod => {
+                    const card = document.createElement("div");
+                    card.className = "product-card";
+                    card.innerHTML = `
+                        <div class="product-img-wrapper">
+                            <img src="${prod.img}" alt="${prod.name}">
+                        </div>
+                        <div class="product-content">
+                            <span class="product-category">${prod.category}</span>
+                            <h3 class="product-name">${prod.name}</h3>
+                            <div class="product-price">$${prod.price.toFixed(2)} MXN</div>
+                            <div class="product-buttons">
+                                <button class="btn btn-primary btn-add-cart" data-id="${prod.id}">Agregar al Carrito</button>
+                                <button class="btn btn-outline btn-remove-fav" data-id="${prod.id}" title="Eliminar"><i class="fa-solid fa-trash" style="color:var(--accent-red)"></i></button>
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+
+                // Eventos de botones
+                document.querySelectorAll(".btn-add-cart").forEach(btn => {
+                    btn.addEventListener("click", (e) => {
+                        const id = parseInt(e.target.getAttribute("data-id"));
+                        const prod = favorites.find(p => p.id === id);
+                        if (prod) {
+                            const existing = cart.find(p => p.id === id);
+                            if (existing) existing.quantity++;
+                            else cart.push({ id: prod.id, name: prod.name, price: prod.price, quantity: 1 });
+                            localStorage.setItem("fp_cart", JSON.stringify(cart));
+                            updateBadges();
+                            alert(`¡"${prod.name}" agregado al carrito!`);
+                        }
+                    });
+                });
+
+                document.querySelectorAll(".btn-remove-fav").forEach(btn => {
+                    btn.addEventListener("click", (e) => {
+                        const id = parseInt(e.currentTarget.getAttribute("data-id"));
+                        favorites = favorites.filter(p => p.id !== id);
+                        localStorage.setItem("fp_favs", JSON.stringify(favorites));
+                        updateBadges();
+                        renderFavs();
+                    });
+                });
+            }
+
+            updateBadges();
+            renderFavs();
+        });
+    </script>
+</body>
+</html>
