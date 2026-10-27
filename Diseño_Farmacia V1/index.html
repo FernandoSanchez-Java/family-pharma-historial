@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VITA Farmacia - Inicio</title>
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Navegación minimalista -->
+    <header>
+        <div class="navbar">
+            <a href="index.html" class="logo">
+                <i class="fa-solid fa-plus"></i> VITA Farmacia
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Catálogo</a></li>
+                <li><a href="#recomendaciones">Recomendados</a></li>
+                <li><a href="#opiniones">Reseñas</a></li>
+                <li><a href="#faq">Ayuda</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="favoritos.html" class="icon-btn" title="Favoritos">
+                    <i class="fa-regular fa-heart"></i>
+                    <span class="badge">2</span>
+                </a>
+                <a href="carrito.html" class="icon-btn" title="Carrito de compras">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span class="badge">3</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero / Buscador -->
+    <section class="hero">
+        <h1>Salud y bienestar a tu alcance</h1>
+        <p>Encuentra medicamentos y productos de cuidado personal con entrega rápida y segura.</p>
+        <div class="search-box">
+            <input type="text" placeholder="Buscar medicamento o producto...">
+            <button><i class="fa-solid fa-magnifying-glass"></i> Buscar</button>
+        </div>
+    </section>
+
+    <div class="container">
+        
+        <!-- Catálogo de Productos -->
+        <h2 class="section-title">Catálogo de Productos</h2>
+        <div class="grid-products">
+            <!-- Producto 1 (Stock Bajo) -->
+            <div class="product-card">
+                <div class="product-img-wrapper">
+                    <span class="stock-tag">Últimas 3 piezas</span>
+                    <img src="https://images.unsplash.com/photo-1584017911766-d451b3d0e843?auto=format&fit=crop&w=400&q=80" alt="Paracetamol">
+                </div>
+                <div class="product-content">
+                    <span class="product-category">Analgésico</span>
+                    <h3 class="product-name">Paracetamol 500mg</h3>
+                    <div class="product-price">$85.00 MXN</div>
+                    <div class="product-buttons">
+                        <button class="btn btn-primary">Agregar</button>
+                        <button class="btn btn-outline"><i class="fa-regular fa-heart"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Producto 2 -->
+            <div class="product-card">
+                <div class="product-img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1471864190281-a93a3070b6de?auto=format&fit=crop&w=400&q=80" alt="Vitamina C">
+                </div>
+                <div class="product-content">
+                    <span class="product-category">Vitaminas</span>
+                    <h3 class="product-name">Vitamina C Efervescente</h3>
+                    <div class="product-price">$140.00 MXN</div>
+                    <div class="product-buttons">
+                        <button class="btn btn-primary">Agregar</button>
+                        <button class="btn btn-outline"><i class="fa-regular fa-heart"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Producto 3 (Stock Bajo) -->
+            <div class="product-card">
+                <div class="product-img-wrapper">
+                    <span class="stock-tag">Últimas 2 piezas</span>
+                    <img src="https://images.unsplash.com/photo-1550572017-edd951b55104?auto=format&fit=crop&w=400&q=80" alt="Ibuprofeno">
+                </div>
+                <div class="product-content">
+                    <span class="product-category">Antiinflamatorio</span>
+                    <h3 class="product-name">Ibuprofeno 400mg</h3>
+                    <div class="product-price">$95.00 MXN</div>
+                    <div class="product-buttons">
+                        <button class="btn btn-primary">Agregar</button>
+                        <button class="btn btn-outline"><i class="fa-regular fa-heart"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Producto 4 -->
+            <div class="product-card">
+                <div class="product-img-wrapper">
+                    <img src="https://images.pexels.com/photos/3873145/pexels-photo-3873145.jpeg?cs=tinysrgb&dpr=1&w=500" alt="Termómetro">
+                </div>
+                <div class="product-content">
+                    <span class="product-category">Equipo Médico</span>
+                    <h3 class="product-name">Termómetro Digital</h3>
+                    <div class="product-price">$210.00 MXN</div>
+                    <div class="product-buttons">
+                        <button class="btn btn-primary">Agregar</button>
+                        <button class="btn btn-outline"><i class="fa-regular fa-heart"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recomendaciones y Reseñas -->
+        <div class="content-grid" id="recomendaciones">
+            <div class="card-box">
+                <h3>Recomendados para ti</h3>
+                <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">Basado en tus intereses de salud y bienestar preventivo.</p>
+                <div style="display: flex; gap: 1rem; align-items: center; background: white; padding: 0.75rem; border-radius: var(--radius); border: 1px solid var(--border-color);">
+                    <img src="https://images.unsplash.com/photo-1471864190281-a93a3070b6de?auto=format&fit=crop&w=80&q=80" style="width: 50px; height: 50px; border-radius: 4px; object-fit: cover;">
+                    <div>
+                        <div style="font-weight: 600; font-size: 0.9rem;">Kit Inmunidad Plus</div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted);">Vitamina C + Zinc</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-box" id="opiniones">
+                <h3>Reseñas y Comentarios</h3>
+                <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">"Excelente servicio de entrega a domicilio y atención muy profesional."</p>
+                <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-main);">— Sofia R. (Cliente verificado)</div>
+            </div>
+        </div>
+
+        <!-- Sección de Preguntas Frecuentes -->
+        <section id="faq" class="faq-section">
+            <h2 class="section-title">Preguntas Frecuentes</h2>
+            <div class="faq-container">
+                
+                <details class="faq-item" open>
+                    <summary class="faq-question">
+                        <span>¿Cuál es el tiempo estimado de entrega?</span>
+                        <i class="fa-solid fa-chevron-down faq-icon"></i>
+                    </summary>
+                    <div class="faq-answer">
+                        El tiempo estimado de entrega es de <strong>1 a 2 días hábiles</strong> a partir de la confirmación de tu pedido.
+                    </div>
+                </details>
+
+                <details class="faq-item">
+                    <summary class="faq-question">
+                        <span>¿Se requiere receta médica para antibióticos?</span>
+                        <i class="fa-solid fa-chevron-down faq-icon"></i>
+                    </summary>
+                    <div class="faq-answer">
+                        Dependerá de los medicamentos requeridos. Aquellos clasificados como antibióticos o de control médico obligatorio requieren la presentación de una receta médica vigente al momento de la entrega.
+                    </div>
+                </details>
+
+                <details class="faq-item">
+                    <summary class="faq-question">
+                        <span>¿Cuáles son los costos de envío?</span>
+                        <i class="fa-solid fa-chevron-down faq-icon"></i>
+                    </summary>
+                    <div class="faq-answer">
+                        El envío es totalmente gratuito en compras mayores a <strong>$350.00 MXN</strong>. Para compras menores, se aplica una tarifa estándar de $50.00 MXN.
+                    </div>
+                </details>
+
+                <details class="faq-item">
+                    <summary class="faq-question">
+                        <span>¿Qué hago si mi paquete llega dañado o incompleto?</span>
+                        <i class="fa-solid fa-chevron-down faq-icon"></i>
+                    </summary>
+                    <div class="faq-answer">
+                        Puedes reportar cualquier inconveniente dentro de los primeros 5 días hábiles a través de nuestro canal de atención al cliente para coordinar el reemplazo o devolución sin costo adicional.
+                    </div>
+                </details>
+
+            </div>
+        </section>
+
+    <!-- Footer con Redes Sociales y Métodos de Pago a Color -->
+    <footer class="footer-section">
+        <div class="social-links">
+            <a href="https://instagram.com" target="_blank" class="social-link instagram" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://tiktok.com" target="_blank" class="social-link tiktok" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+            <a href="https://facebook.com" target="_blank" class="social-link facebook" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="https://whatsapp.com" target="_blank" class="social-link whatsapp" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+        </div>
+
+        <div class="payment-methods">
+            <p>Métodos de pago aceptados</p>
+            <div class="payment-badges">
+                <i class="fa-brands fa-cc-visa visa" title="Visa"></i>
+                <i class="fa-brands fa-cc-mastercard mastercard" title="Mastercard"></i>
+                <i class="fa-brands fa-cc-paypal paypal" title="PayPal"></i>
+                <i class="fa-brands fa-apple-pay applepay" title="Apple Pay"></i>
+                <i class="fa-brands fa-google-pay googlepay" title="Google Pay"></i>
+            </div>
+        </div>
+
+        <p class="copyright">&copy; 2026 VITA Farmacia. Todos los derechos reservados.</p>
+    </footer>
+
+    </div>
+
+</body>
+</html>

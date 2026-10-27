@@ -1,0 +1,645 @@
+:root {
+    --bg-color: #ffffff;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --primary: #0284c7;
+    --primary-hover: #0369a1;
+    --accent-red: #e11d48;
+    --border-color: #e2e8f0;
+    --card-bg: #f8fafc;
+    --radius: 8px;
+    --transition: all 0.2s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.5;
+}
+
+header {
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    z-index: 100;
+}
+
+.navbar {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-main);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo i {
+    color: var(--primary);
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.nav-links a:hover {
+    color: var(--text-main);
+}
+
+.nav-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    color: var(--text-main);
+    cursor: pointer;
+    position: relative;
+    padding: 8px;
+    border-radius: 50%;
+    transition: var(--transition);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-btn:hover {
+    background-color: var(--card-bg);
+}
+
+.badge {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background-color: var(--accent-red);
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 600;
+    padding: 2px 5px;
+    border-radius: 999px;
+}
+
+.hero {
+    max-width: 1280px;
+    margin: 3rem auto;
+    padding: 0 2rem;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    margin-bottom: 1rem;
+}
+
+.hero p {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto 2rem;
+}
+
+.search-box {
+    max-width: 500px;
+    margin: 0 auto;
+    display: flex;
+    border: 1px solid var(--border-color);
+    border-radius: 999px;
+    overflow: hidden;
+    padding: 4px;
+    background: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+}
+
+.search-box input {
+    flex: 1;
+    border: none;
+    padding: 0.75rem 1.25rem;
+    outline: none;
+    font-size: 0.95rem;
+}
+
+.search-box button {
+    background: var(--text-main);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 999px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.search-box button:hover {
+    background: var(--primary);
+}
+
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.015em;
+}
+
+.grid-products {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.product-card {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: var(--transition);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-card:hover {
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    transform: translateY(-2px);
+}
+
+.product-img-wrapper {
+    height: 200px;
+    background: var(--card-bg);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.product-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.stock-tag {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: rgba(225, 29, 72, 0.9);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 4px;
+    backdrop-filter: blur(4px);
+}
+
+.product-content {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.product-category {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.25rem;
+}
+
+.product-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 0.5rem;
+}
+
+.product-price {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 1rem;
+}
+
+.product-buttons {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: auto;
+}
+
+.btn {
+    padding: 0.6rem 1rem;
+    border-radius: var(--radius);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: var(--transition);
+    text-align: center;
+    text-decoration: none;
+}
+
+.btn-primary {
+    background: var(--text-main);
+    color: white;
+    flex: 1;
+}
+
+.btn-primary:hover {
+    background: var(--primary);
+}
+
+.btn-outline {
+    background: white;
+    border-color: var(--border-color);
+    color: var(--text-main);
+}
+
+.btn-outline:hover {
+    background: var(--card-bg);
+}
+
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 2rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.btn-back:hover {
+    color: var(--text-main);
+}
+
+.content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+@media(max-width: 768px) {
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.card-box {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+}
+
+.card-box h3 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+/* Carrito - Altas, Bajas y Cambios */
+.cart-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+}
+
+@media(max-width: 768px) {
+    .cart-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+.cart-item-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.cart-item-row:last-child {
+    border-bottom: none;
+}
+
+.cart-item-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.cart-item-title {
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.cart-item-unit-price {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.cart-controls {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.quantity-control {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--card-bg);
+}
+
+.quantity-btn {
+    background: none;
+    border: none;
+    padding: 6px 12px;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--text-main);
+    transition: var(--transition);
+}
+
+.quantity-btn:hover {
+    background: var(--border-color);
+}
+
+.quantity-value {
+    padding: 0 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.btn-delete {
+    background: none;
+    border: none;
+    color: var(--accent-red);
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 6px;
+    border-radius: var(--radius);
+    transition: var(--transition);
+}
+
+.btn-delete:hover {
+    background: #ffe4e6;
+}
+
+/* Modal para Altas */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    padding: 2rem;
+    border-radius: var(--radius);
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-bottom: 0.4rem;
+    color: var(--text-main);
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.6rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    outline: none;
+    font-size: 0.9rem;
+}
+
+.form-control:focus {
+    border-color: var(--primary);
+}
+
+/* Preguntas Frecuentes (Verticales y con flecha a la derecha) */
+.faq-section {
+    max-width: 800px;
+    margin: 0 auto 4rem auto;
+}
+
+.faq-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.faq-item {
+    display: block !important;
+    background: #ffffff;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+    border-color: var(--primary);
+}
+
+.faq-question {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+    padding: 1.25rem 1.5rem;
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--text-main);
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+    box-sizing: border-box;
+}
+
+.faq-question::-webkit-details-marker,
+.faq-question::marker {
+    display: none !important;
+}
+
+.faq-icon {
+    font-size: 0.9rem;
+    color: var(--primary);
+    margin-left: auto;
+    transition: transform 0.3s ease;
+}
+
+.faq-item[open] .faq-icon {
+    transform: rotate(180deg);
+}
+
+.faq-item[open] {
+    border-color: var(--primary);
+}
+
+.faq-answer {
+    display: block !important;
+    width: 100% !important;
+    padding: 1rem 1.5rem 1.25rem 1.5rem;
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    border-top: 1px solid #f1f5f9;
+    box-sizing: border-box;
+}
+
+/* --- Footer de Ancho Completo (De lado a lado) y Gris más Oscuro --- */
+.footer-section {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    background-color: #e2e8f0;
+    border-top: 1px solid var(--border-color);
+    padding: 2rem 1rem;
+    text-align: center;
+    margin-top: 4rem;
+    box-sizing: border-box;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.social-link {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: white;
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+/* Colores de marca para Redes Sociales */
+.social-link.instagram { color: #e1306c; border-color: #fce7f3; }
+.social-link.instagram:hover { background: #e1306c; color: white; border-color: #e1306c; }
+
+.social-link.tiktok { color: #000000; border-color: #e2e8f0; }
+.social-link.tiktok:hover { background: #000000; color: white; border-color: #000000; }
+
+.social-link.facebook { color: #1877f2; border-color: #dbeafe; }
+.social-link.facebook:hover { background: #1877f2; color: white; border-color: #1877f2; }
+
+.social-link.whatsapp { color: #25d366; border-color: #dcfce7; }
+.social-link.whatsapp:hover { background: #25d366; color: white; border-color: #25d366; }
+
+.payment-methods {
+    margin: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.payment-methods p {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.payment-badges {
+    display: flex;
+    gap: 1rem;
+    font-size: 1.8rem;
+    align-items: center;
+}
+
+.payment-badges i { 
+    transition: transform 0.2s ease; 
+}
+
+.payment-badges i:hover { 
+    transform: scale(1.1); 
+}
+
+/* Colores de marca para Métodos de Pago */
+.payment-badges .visa { color: #1a1f71; }
+.payment-badges .mastercard { color: #eb001b; }
+.payment-badges .paypal { color: #003087; }
+.payment-badges .applepay { color: #000000; }
+.payment-badges .googlepay { color: #4285f4; }
+
+.copyright {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-top: 1rem;
+}
