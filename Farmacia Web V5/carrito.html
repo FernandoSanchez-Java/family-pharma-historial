@@ -37,7 +37,7 @@
                     <!-- Dinámico -->
                 </div>
 
-                <!-- Sección de Selección de Servicio de Envío -->
+                <!-- Sección de Selección de Servicio de Entrega -->
                 <div style="background: white; border-radius: var(--border-radius); padding: 1.5rem; border: 1px solid var(--border-color); box-shadow: var(--shadow);">
                     <h3 style="font-size: 1.1rem; margin-bottom: 1rem; color: var(--secondary-color);"><i class="fa-solid fa-truck-fast"></i> Método de Entrega</h3>
                     
@@ -66,6 +66,17 @@
                                 <input type="text" id="ship-cp" class="form-control" placeholder="06700" maxlength="5" style="font-size: 0.85rem;">
                             </div>
                         </div>
+                    </div>
+
+                    <!-- Selector de Sucursales (Solo si es Recoger en Sucursal) -->
+                    <div id="pickup-branch-container" style="display: none; margin-top: 1rem; background: #f8fafc; padding: 0.8rem; border-radius: 6px; border: 1px solid var(--border-color);">
+                        <label style="font-size: 0.8rem; font-weight: 600; display: block; margin-bottom: 0.3rem;"><i class="fa-solid fa-store" style="color: var(--primary);"></i> Seleccione la Sucursal de Recogida</label>
+                        <select id="branch-select" class="form-control" style="font-size: 0.85rem;">
+                            <option value="Sucursal UPIICSA (Av. Té s/n, Iztacalco)">Sucursal UPIICSA (Av. Té s/n, Iztacalco)</option>
+                            <option value="Sucursal Centro Histórico (Av. Juárez #45)">Sucursal Centro Histórico (Av. Juárez #45)</option>
+                            <option value="Sucursal Polanco (Masaryk #120)">Sucursal Polanco (Masaryk #120)</option>
+                            <option value="Sucursal Del Valle (Av. Coyoacán #1500)">Sucursal Del Valle (Av. Coyoacán #1500)</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -181,12 +192,15 @@
             const shipDelivery = document.getElementById("ship-delivery");
             const shipPickup = document.getElementById("ship-pickup");
             const deliveryContainer = document.getElementById("delivery-address-container");
+            const pickupBranchContainer = document.getElementById("pickup-branch-container");
 
             function toggleDeliveryFields() {
                 if (shipPickup.checked) {
                     deliveryContainer.style.display = "none";
+                    if (pickupBranchContainer) pickupBranchContainer.style.display = "block";
                 } else {
                     deliveryContainer.style.display = "block";
+                    if (pickupBranchContainer) pickupBranchContainer.style.display = "none";
                 }
                 let subtotal = cart.reduce((acc, item) => acc + (item.price * (item.quantity || 1)), 0);
                 updateSummary(subtotal);
@@ -335,7 +349,15 @@
                         const randomOrderNum = Math.floor(1000 + Math.random() * 9000);
                         const orderId = `#FP-${randomOrderNum}`;
                         const isDelivery = document.getElementById("ship-delivery").checked;
-                        const entregaTipo = isDelivery ? "Envío a Domicilio" : "Recogida en Sucursal";
+                        
+                        let entregaTipo = "";
+                        if (isDelivery) {
+                            entregaTipo = "Envío a Domicilio";
+                        } else {
+                            const branchName = document.getElementById("branch-select").value;
+                            entregaTipo = `Recoger en Sucursal -> ${branchName}`;
+                        }
+
                         const totalPagadoStr = document.getElementById("summary-total").textContent;
                         const clienteNombre = currentUser ? currentUser.name : name;
 
