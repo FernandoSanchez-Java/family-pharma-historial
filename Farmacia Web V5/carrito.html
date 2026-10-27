@@ -59,12 +59,10 @@
                         <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1rem;">
                             <div class="form-group">
                                 <label style="font-size: 0.8rem; font-weight: 600; display: block; margin-bottom: 0.2rem;">Colonia / Alcaldía</label>
-                                <!-- Máscara estricta: Solo letras, acentos, ñ y espacios (sin números) -->
                                 <input type="text" id="ship-colony" class="form-control" placeholder="Ej. Roma Norte" style="font-size: 0.85rem;">
                             </div>
                             <div class="form-group">
                                 <label style="font-size: 0.8rem; font-weight: 600; display: block; margin-bottom: 0.2rem;">Código Postal</label>
-                                <!-- Máscara estricta: Solo números para el Código Postal -->
                                 <input type="text" id="ship-cp" class="form-control" placeholder="06700" maxlength="5" style="font-size: 0.85rem;">
                             </div>
                         </div>
@@ -117,13 +115,11 @@
             </div>
             
             <form id="form-checkout">
-                <!-- Nombre del Titular (Solo Letras y Espacios) -->
                 <div class="form-group" style="margin-bottom: 1rem;">
                     <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 0.3rem;">Nombre del Titular</label>
                     <input type="text" id="pay-name" class="form-control" placeholder="Nombre en tarjeta" required>
                 </div>
 
-                <!-- Número de Tarjeta (Solo Números) -->
                 <div class="form-group" style="margin-bottom: 1rem;">
                     <label style="font-size: 0.85rem; font-weight: 600; display: block; margin-bottom: 0.3rem;">Número de Tarjeta</label>
                     <input type="text" id="pay-card" class="form-control" placeholder="4532 0000 0000 0000" maxlength="19" required>
@@ -201,7 +197,6 @@
                 shipPickup.addEventListener("change", toggleDeliveryFields);
             }
 
-            // MÁSCARA ESTRICTA: Colonia / Alcaldía (Solo Letras, acentos, ñ y espacios)
             const shipColonyInput = document.getElementById("ship-colony");
             if (shipColonyInput) {
                 shipColonyInput.addEventListener("input", (e) => {
@@ -209,7 +204,6 @@
                 });
             }
 
-            // MÁSCARA ESTRICTA: Código Postal (Solo Números, máximo 5 dígitos)
             const shipCpInput = document.getElementById("ship-cp");
             if (shipCpInput) {
                 shipCpInput.addEventListener("input", (e) => {
@@ -245,7 +239,6 @@
                 });
             }
 
-            // MÁSCARA: Nombre del Titular (Solo Letras, acentos, ñ y espacios)
             const payNameInput = document.getElementById("pay-name");
             if (payNameInput) {
                 payNameInput.addEventListener("input", (e) => {
@@ -253,7 +246,6 @@
                 });
             }
 
-            // MÁSCARA: Número de Tarjeta (Solo Números)
             const payCardInput = document.getElementById("pay-card");
             if (payCardInput) {
                 payCardInput.addEventListener("input", (e) => {
@@ -281,7 +273,6 @@
                 });
             }
 
-            // RESTRICCIÓN DE SEGURIDAD Y VALIDACIÓN DE DATOS DE ENVÍO
             if (checkoutBtn) {
                 checkoutBtn.addEventListener("click", () => {
                     if (cart.length === 0) {
@@ -294,7 +285,6 @@
                         return;
                     }
 
-                    // Validar que si eligió domicilio, los datos de envío estén completos
                     if (document.getElementById("ship-delivery").checked) {
                         const street = document.getElementById("ship-street").value.trim();
                         const colony = document.getElementById("ship-colony").value.trim();
@@ -346,9 +336,10 @@
                         const orderId = `#FP-${randomOrderNum}`;
                         const isDelivery = document.getElementById("ship-delivery").checked;
                         const entregaTipo = isDelivery ? "Envío a Domicilio" : "Recogida en Sucursal";
+                        const totalPagadoStr = document.getElementById("summary-total").textContent;
+                        const clienteNombre = currentUser ? currentUser.name : name;
 
-                        let message = `¡Pago procesado con éxito!\n\nNúmero de Orden: ${orderId}\nCliente: ${currentUser ? currentUser.name : name}\nMétodo de Entrega: ${entregaTipo}\nTotal Pagado: ${document.getElementById("summary-total").textContent}`;
-
+                        let facturaHtml = "";
                         if (checkInvoice && checkInvoice.checked) {
                             const rfc = document.getElementById("pay-rfc").value.trim().toUpperCase();
                             const cfdiUse = document.getElementById("pay-cfdi-use").value;
@@ -358,14 +349,57 @@
                                 if (loadingSpinner) loadingSpinner.style.display = "none";
                                 return;
                             }
-                            message += `\n\nFactura CFDI 4.0 generada a favor de:\nRFC: ${rfc}\nUso de CFDI: ${cfdiUse}`;
+                            
+                            let subVal = cart.reduce((acc, item) => acc + (item.price * (item.quantity || 1)), 0);
+                            let ivaVal = subVal * 0.16;
+
+                            facturaHtml = `
+                                <div style="margin-top: 1rem; border-top: 2px dashed #cbd5e1; padding-top: 1rem; text-align: left; font-size: 0.85rem;">
+                                    <h4 style="color: var(--primary); margin-bottom: 0.4rem;"><i class="fa-solid fa-file-invoice"></i> Comprobante Fiscal CFDI 4.0</h4>
+                                    <p><strong>RFC Receptor:</strong> ${rfc}</p>
+                                    <p><strong>Uso CFDI:</strong> ${cfdiUse}</p>
+                                    <p><strong>Folio Fiscal UUID:</strong> A1B2C3D4-E5F6-7890-ABCD-EF0123456789</p>
+                                    <div style="margin: 0.5rem 0; background: #f8fafc; padding: 0.5rem; border-radius: 4px;">
+                                        <div style="display:flex; justify-content:space-between;"><span>Subtotal:</span><span>$${subVal.toFixed(2)}</span></div>
+                                        <div style="display:flex; justify-content:space-between;"><span>IVA (16%):</span><span>$${ivaVal.toFixed(2)}</span></div>
+                                    </div>
+                                    <div style="text-align: center; margin-top: 0.8rem;">
+                                        <div style="display: inline-block; background: #0f172a; color: white; padding: 0.4rem 0.8rem; border-radius: 4px; font-size: 0.75rem;">
+                                            <i class="fa-solid fa-qrcode" style="font-size: 1.5rem; display: block; margin-bottom: 2px;"></i>
+                                            QR de Verificación SAT
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
                         }
 
-                        alert(message);
+                        if (loadingSpinner) loadingSpinner.style.display = "none";
+                        
+                        const modalContent = checkoutModal.querySelector(".modal-content");
+                        modalContent.innerHTML = `
+                            <div style="text-align: center; padding: 0.5rem;">
+                                <i class="fa-solid fa-circle-check" style="font-size: 3rem; color: #22c55e; margin-bottom: 0.5rem;"></i>
+                                <h3 style="color: var(--secondary-color); font-size: 1.2rem; margin-bottom: 0.5rem;">¡Pago procesado con éxito!</h3>
+                                <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">La transacción se ha completado correctamente.</p>
+                                
+                                <div style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: 8px; padding: 1rem; text-align: left; font-size: 0.9rem; margin-bottom: 1rem;">
+                                    <p><strong>Número de Orden:</strong> ${orderId}</p>
+                                    <p><strong>Cliente:</strong> ${clienteNombre}</p>
+                                    <p><strong>Método de Entrega:</strong> ${entregaTipo}</p>
+                                    <p><strong>Total Pagado:</strong> <span style="color: var(--primary); font-weight: bold;">${totalPagadoStr}</span></p>
+                                    ${facturaHtml}
+                                </div>
 
-                        localStorage.removeItem("fp_cart");
-                        cart = [];
-                        window.location.href = "index.html";
+                                <button id="finish-and-clear" class="btn btn-primary" style="width: 100%; padding: 0.75rem;">Aceptar e Imprimir Comprobante</button>
+                            </div>
+                        `;
+
+                        document.getElementById("finish-and-clear").addEventListener("click", () => {
+                            localStorage.removeItem("fp_cart");
+                            cart = [];
+                            window.location.href = "index.html";
+                        });
+
                     }, 2000);
                 });
             }
